@@ -51,10 +51,17 @@ class LoginScreen extends React.Component {
     console.log('data : ',data)   
     if(data.username === "Waiter" && data.password ==="1"){
         console.log('login success : ', true)
-        data.role ="Waiter";
+        data.role ="waiter";
         storeSession(data)
-        this.props.navigation.navigate('AuthLoading'); 
-    }else{
+        this.props.navigation.navigate('AuthLoading');
+    }
+    else if(data.username === "Chef" && data.password ==="1"){
+      console.log('login success : ', true)
+      data.role ="chef";
+      storeSession(data)
+      this.props.navigation.navigate('AuthLoading');        
+    }
+    else{
         Toast.show({
             text:'username or password wrong',
             type:'danger',

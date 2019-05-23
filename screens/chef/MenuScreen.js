@@ -11,7 +11,7 @@ import {
 import { WebBrowser } from 'expo';
 
 
-export default class WaiterMenuScreen extends React.Component {
+export default class ChefMenuScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -25,7 +25,7 @@ export default class WaiterMenuScreen extends React.Component {
 
           <View style={styles.getStartedContainer}>
 
-            <Text style={styles.getStartedText}>This is Waiter/Menu screen</Text>
+            <Text style={styles.getStartedText}>This is Chef/Menu screen</Text>
           </View>
         </ScrollView>
       </View>

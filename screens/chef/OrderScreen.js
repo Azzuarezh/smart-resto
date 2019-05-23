@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
-
-export default class WaiterMenuScreen extends React.Component {
+export default class ChefOrderScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -20,12 +19,8 @@ export default class WaiterMenuScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-          </View>
-
           <View style={styles.getStartedContainer}>
-
-            <Text style={styles.getStartedText}>This is Waiter/Menu screen</Text>
+            <Text style={styles.getStartedText}>This is Chef/Order screen</Text>
           </View>
         </ScrollView>
       </View>

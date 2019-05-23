@@ -22,13 +22,7 @@ class AuthLoadingScreen extends React.Component {
       console.log('session : ', session);
       if (session !== null){        
         this.props.dispatch({type:'SET_SESSION', session})        
-        if(session.role ==="Waiter"){
-          this.props.navigation.navigate(session.role + '_nav');
-        }
-        // just test only, comment the else statement if done
-        else{
-          this.props.navigation.navigate('Login')
-        }
+        this.props.navigation.navigate(session.role + '_nav');
       }else{
         this.props.navigation.navigate('Login')
       }

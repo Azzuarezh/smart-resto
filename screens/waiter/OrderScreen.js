@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
-export default class HomeScreen extends React.Component {
+export default class WaiterOrderScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
