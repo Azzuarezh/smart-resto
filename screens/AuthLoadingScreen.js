@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { storeSession } from '../components/action';
 import {
   ActivityIndicator,
   AsyncStorage,
@@ -21,8 +22,25 @@ class AuthLoadingScreen extends React.Component {
       var session = await JSON.parse(sessionJson)
       console.log('session : ', session);
       if (session !== null){        
-        this.props.dispatch({type:'SET_SESSION', session})        
-        this.props.navigation.navigate(session.role + '_nav');
+        var roles = session.role;
+        //if the user has multiple roles admin or chef and waiter
+        if(roles.length > 1){
+          storeSession(session)           
+          this.props.dispatch({type:'SET_SESSION', session});
+          var role = roles[0]
+          console.log('role : ',role)
+          this.props.navigation.navigate(role);
+          
+        } 
+        // if the user has only one access e.g chef or waiter
+        else{
+          storeSession(session)           
+          this.props.dispatch({type:'SET_SESSION', session});
+          var role = roles[0]
+          console.log('role : ',role)
+          this.props.navigation.navigate(role);
+          
+        }        
       }else{
         this.props.navigation.navigate('Login')
       }

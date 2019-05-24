@@ -29,8 +29,8 @@ export default class TabBarIcon extends React.Component {
             top: -3,
             backgroundColor: 'red',
             borderRadius: 6,
-            width: 12,
-            height: 12,
+            width: 14,
+            height: 14,
             justifyContent: 'center',
             alignItems: 'center'
           }}>

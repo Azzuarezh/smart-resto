@@ -18,95 +18,19 @@ const AuthStack = createStackNavigator({ Login: LoginScreen});
 const WaiterStack = createStackNavigator({
   Menu: WaiterMenuScreen, 
   Order: WaiterOrderScreen
+},
+{
+    initialRouteName: 'Order',
 });
 
 const ChefStack = createStackNavigator({
   Menu: ChefMenuScreen, 
   Order: ChefOrderScreen
+},
+{
+  initialRouteName: 'Order',
 });
 
-
-const WaiterMenuStack= createStackNavigator({Menu: WaiterMenuScreen});
-const WaiterOrderStack= createStackNavigator({Order: WaiterOrderScreen});
-
-const ChefMenuStack= createStackNavigator({Menu: ChefMenuScreen});
-const ChefOrderStack= createStackNavigator({Order: ChefOrderScreen});
-
-
-WaiterMenuStack.navigationOptions = {
-  tabBarLabel: 'Menu',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-menu`
-          : 'md-menu'
-      }
-      badgeCount='4'
-      size={25}
-    />
-  ),
-};
-
-WaiterOrderStack.navigationOptions = {
-  tabBarLabel: 'Order',
-  tabBarIcon: ({ focused, horizontal, tintColor }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-cart`
-          : 'md-cart'
-      }
-      badgeCount='1'
-      size={25}
-    />
-  ),
-};
-
-const WaiterBottomNav = createBottomTabNavigator({
-  WaiterMenuStack,WaiterOrderStack
-});
-
-
-
-ChefMenuStack.navigationOptions = {
-  tabBarLabel: 'Menu',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-menu`
-          : 'md-menu'
-      }
-      badgeCount='4'
-      size={25}
-    />
-  ),
-};
-
-ChefOrderStack.navigationOptions = {
-  tabBarLabel: 'Order',
-  tabBarIcon: ({ focused, horizontal, tintColor }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-cart`
-          : 'md-cart'
-      }
-      badgeCount='1'
-      size={25}
-    />
-  ),
-};
-
-
-const ChefBottomNav = createBottomTabNavigator({
-  ChefMenuStack,ChefOrderStack
-});
 
 export default createAppContainer(createSwitchNavigator({
   // You could add another route here for authentication.
@@ -114,10 +38,8 @@ export default createAppContainer(createSwitchNavigator({
   
   AuthLoading: AuthLoadingScreen, 
   Auth:AuthStack,
-  waiter_nav: WaiterBottomNav,
-  chef_nav: ChefBottomNav,
-  Waiter : WaiterStack,
-  Chef : ChefStack
+  waiter : WaiterStack,
+  chef : ChefStack
 },
 {
     initialRouteName: 'AuthLoading',

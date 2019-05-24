@@ -7,6 +7,8 @@ import { AppLoading, Asset, Font, Icon, SplashScreen } from 'expo';
 import { fetchSession } from '../components/action';
 import AppNavigator from '../navigation/AppNavigator';
 
+
+
 export class Index extends React.Component {
   state = {
     isSplashReady: false,
@@ -15,13 +17,14 @@ export class Index extends React.Component {
 
   async componentDidMount() {
     var sessionJson = await AsyncStorage.getItem("@Resto:session");
-    console.log('session before clear : ',sessionJson)
-    await AsyncStorage.clear();
+    
+    // console.log('session before clear : ',sessionJson)
+    // await AsyncStorage.clear();
     this.props.dispatch({type:'RESET_STATE'})
     try {
       var sessionJson = await AsyncStorage.getItem("@Resto:session")
       var session = await JSON.parse(sessionJson)
-      if (session !== null){              
+      if (session !== null){
         this.props.dispatch({type:'SET_SESSION', session})
       }
     }
@@ -59,7 +62,7 @@ export class Index extends React.Component {
         <Root>
           <AppNavigator />
         </Root>
-        );  
+        );
   }
 
   _cacheSplashResourcesAsync = async () => {
@@ -75,8 +78,8 @@ export class Index extends React.Component {
       require('../assets/images/animation.gif')
     ];
 
-    const fonts = Font.loadAsync({        
-        'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),        
+    const fonts = Font.loadAsync({
+        'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         'Roboto': require('native-base/Fonts/Roboto.ttf'),
         'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
       })
@@ -87,7 +90,7 @@ export class Index extends React.Component {
 
     await Promise.all([cacheImages,fonts]);
     this.setState({ isAppReady: true });
-  }  
+  }
 }
 
 Index.propTypes = {
@@ -97,7 +100,7 @@ Index.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    session: state.session    
+    session: state.session
   };
 }
 

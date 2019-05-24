@@ -18,13 +18,10 @@ import { Container,
 import { View, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { storeSession } from '../components/action';
 import {  Font } from 'expo';
+import  BaseApi from '../api/base';
 
 
 class LoginScreen extends React.Component {
-
-  static navigationOptions = {
-    header: null,
-  };
 
   constructor(props){
     super(props);
@@ -35,12 +32,6 @@ class LoginScreen extends React.Component {
 	  }
   }
 
-  async componentWillMount() {
-    await Font.loadAsync({
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-    });
-  }
 
   checkRequired = (userName,password) => {
     return (userName !== '' && password !== '')? true:false;
@@ -49,27 +40,55 @@ class LoginScreen extends React.Component {
   login = async(data) => {
     this.setState({loading:true}) 
     console.log('data : ',data)   
-    if(data.username === "Waiter" && data.password ==="1"){
-        console.log('login success : ', true)
-        data.role ="waiter";
-        storeSession(data)
-        this.props.navigation.navigate('AuthLoading');
-    }
-    else if(data.username === "Chef" && data.password ==="1"){
-      console.log('login success : ', true)
-      data.role ="chef";
-      storeSession(data)
-      this.props.navigation.navigate('AuthLoading');        
-    }
-    else{
-        Toast.show({
-            text:'username or password wrong',
-            type:'danger',
-            buttonText:'Ok',              
-          })
+    fetch(BaseApi.login, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'            
+      },
+      body: JSON.stringify(data)
+    })
+    .then((response) => response.json())
+    .then(responseJson => {                        
+      if(responseJson.status =='OK'){        
+        var session = responseJson.data;                
+        var roles = responseJson.data.role;
+        //if the user has multiple roles admin or chef and waiter
+        if(roles.length > 1){
           this.setState({loading:false})
-          console.log('error:','username or password wrong')
-    }
+          storeSession(session)           
+          this.props.dispatch({type:'SET_SESSION', session});
+          Alert.alert("Welcome " + responseJson.data.name )
+          var role = roles[0]
+          console.log('role : ',role)
+          this.props.navigation.navigate(role);
+          
+        } 
+        // if the user has only one access e.g chef or waiter
+        else{
+          this.setState({loading:false})
+          storeSession(session)           
+          this.props.dispatch({type:'SET_SESSION', session});
+          Alert.alert("Welcome " + responseJson.data.name )
+          var role = roles[0]
+          console.log('role : ',role)
+          this.props.navigation.navigate(role);
+          
+        }
+                      
+      }else{
+        Alert.alert("Login Failed", responseJson.data);
+        this.setState({loading:false})              
+      }      
+    })
+    .catch(error => {
+      Toast.show({
+        text:'can\'t connect to server!',
+        type:'danger',
+        buttonText:'Ok',              
+      })
+      this.setState({loading:false})
+    });
   }
 
   handleLoginPressed = async () => {            
