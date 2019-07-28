@@ -17,8 +17,13 @@ import { Container,
   Spinner} from 'native-base';
 import { View, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { storeSession } from '../components/action';
-import {  Font } from 'expo';
+import * as Font from 'expo-font';
+import { Notifications } from 'expo';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 import  BaseApi from '../api/base';
+
+
 
 
 class LoginScreen extends React.Component {
@@ -39,6 +44,33 @@ class LoginScreen extends React.Component {
 
   login = async(data) => {
     this.setState({loading:true}) 
+    
+    //store push notification token
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+  
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+  
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+      return;
+    }
+  
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+    
+    //add token to data request
+    data['pushToken'] = token;
+
     console.log('data : ',data)   
     fetch(BaseApi.login, {
       method: 'POST',

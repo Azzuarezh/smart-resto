@@ -12,11 +12,16 @@ import WaiterOrderScreen from '../screens/waiter/OrderScreen';
 import ChefMenuScreen from '../screens/chef/MenuScreen';
 import ChefOrderScreen from '../screens/chef/OrderScreen';
 
+import FoodScreen from '../screens/food/FoodScreen';
+
 
 const AuthStack = createStackNavigator({ Login: LoginScreen});
 
+const FoodStack  = createStackNavigator({Food : FoodScreen});
+
 const WaiterStack = createStackNavigator({
   Menu: WaiterMenuScreen, 
+  Food : FoodStack,
   Order: WaiterOrderScreen
 },
 {

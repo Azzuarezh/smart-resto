@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+
 
 export default class ChefOrderScreen extends React.Component {
   static navigationOptions = {

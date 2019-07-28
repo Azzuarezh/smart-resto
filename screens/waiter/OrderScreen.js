@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
+  AsyncStorage,
   Image,
   Platform,
   ScrollView,
@@ -29,12 +30,13 @@ import { Container,
   Picker,
   H1,
   Spinner} from 'native-base';
-import { WebBrowser } from 'expo';
 
 
 
 class WaiterOrderScreen extends React.Component {
-  
+  static navigationOptions = {
+    header: null,
+  };
 
   constructor(props){
     super(props);
@@ -71,6 +73,8 @@ class WaiterOrderScreen extends React.Component {
       selected: value
     });
   }
+
+
    Item = Picker.Item;
 
    handleNameChange = (customerNameTextBox) => {
@@ -80,13 +84,45 @@ class WaiterOrderScreen extends React.Component {
   	})
   }
 
+  _signOutAsync = async () => {
+    Alert.alert('Sign Out',
+      'Are you sure want to sign out?',
+      [{
+        text:'Yes', onPress :async()=>{
+          await AsyncStorage.clear();
+          this.props.navigation.navigate('Auth');
+          Toast.show({
+                text:'Signed out,Thank you!',
+                type:'success',
+                buttonText:'Ok',              
+          })
+        }
+      },
+      {
+        text:'No',style:'cancel'
+      }])    
+  };
+
+  // action when the grid tapped
   GetGridViewItem(item) {
-    Alert.alert(item);
+    this.props.navigation.navigate('Food');
+    //Alert.alert(item);
   }
 
   render() {
     return (
       <Container>
+        <Header>
+          <Left/>          
+          <Body>
+            <Title>Account</Title>
+          </Body>          
+          <Right>
+            <Button transparent onPress={this._signOutAsync}>
+              <Icon name={Platform.OS =='ios'? 'ios-power':'md-scanner'} />
+            </Button>
+          </Right>
+        </Header>
         <Content>
         <Form>
           <Item Picker>

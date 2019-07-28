@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {AsyncStorage, Platform, StatusBar, StyleSheet, View, Image} from 'react-native';
 import {Root,Text } from 'native-base';
-import { AppLoading, Asset, Font, Icon, SplashScreen } from 'expo';
+import { AppLoading, SplashScreen } from 'expo';
+import * as Icon from '@expo/vector-icons';
+import * as Font from 'expo-font';
+import { Asset } from 'expo-asset';
 import { fetchSession } from '../components/action';
 import AppNavigator from '../navigation/AppNavigator';
 
@@ -78,17 +81,13 @@ export class Index extends React.Component {
       require('../assets/images/animation.gif')
     ];
 
-    const fonts = Font.loadAsync({
-        'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
-        'Roboto': require('native-base/Fonts/Roboto.ttf'),
-        'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-      })
+    
 
     const cacheImages = images.map((image) => {
       return Asset.fromModule(image).downloadAsync();
     });
 
-    await Promise.all([cacheImages,fonts]);
+    await Promise.all([cacheImages]);
     this.setState({ isAppReady: true });
   }
 }

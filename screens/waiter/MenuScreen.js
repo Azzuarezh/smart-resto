@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import * as WebBrowser from 'expo-web-browser';
 
 
 export default class WaiterMenuScreen extends React.Component {
